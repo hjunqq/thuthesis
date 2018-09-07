@@ -789,7 +789,15 @@
 % \edate{English Date}
 % \postdoctordate{2009年7月——2011年7月} % 博士后研究起止日期
 % \end{latex}
-%
+% \subsubsection{前言}
+% \myentry{前言正文}
+% \DescribeEnv{preface}
+%  \note[说明：]{前言正文只能用环境命令的形式，不支持 \cs{thusetup}。}
+% \begin{latex}
+% \begin{preface}
+%  前言请写在这里...
+% \end{preface}
+% \end{latex}
 % \subsubsection{摘要}
 % \myentry{摘要正文}
 % \DescribeEnv{cabstract}
@@ -1039,13 +1047,14 @@
 % \begin{document}
 % \thuset{
 %   ctitle={论文中文题目},
-%   cauthor={中文姓名}}
+%   cauthor={中文姓名},
+%   schoolname={学校名称}}
 %
 % \shuji % 使用默认标题和默认作者
 %
 % \shuji[使用默认作者的标题]
 %
-% \shuji[同时修改标题和作者的标题][尼瑞薛]
+% \shuji[同时修改标题和作者的标题][尼瑞薛][清华大学]
 %
 % % 如果标题中有英文，那可以参考如下方法进行微调：
 % \shuji[清华大学 \raisebox{-5pt}{\LaTeX} 论文模板 \raisebox{-5pt}{v\version} 样例]
@@ -1419,10 +1428,10 @@
     footskip=12mm}
 \else
   \geometry{
-    left=30mm,
+    left=25mm,
     headheight=5mm,
     headsep=5mm,
-    textheight=237mm,
+    textheight=242mm,
     bottom=29mm,
     footskip=6mm}
 \fi
@@ -2054,6 +2063,7 @@
 }
 \newcommand\listequationname{公式索引}
 \newcommand\equationname{公式}
+\newcommand{\prefacename}{前\hspace{\ccwd}言}
 \ifthu@bachelor
   \newcommand{\cabstractname}{中文摘要}
   \newcommand{\eabstractname}{ABSTRACT}
@@ -2062,7 +2072,7 @@
   \newcommand{\eabstractname}{Abstract}
 \fi
 \let\CJK@todaysave=\today
-\def\CJK@todaysmall@short{\the\year 年 \the\month 月}
+\def\CJK@todaysmall@short{\the\year\quad 年 \quad\the\month\quad 月}
 \def\CJK@todaysmall{\the\year 年 \the\month 月 \the\day 日}
 \def\CJK@todaybig@short{\zhdigits{\the\year}年\zhnumber{\the\month}月}
 \def\CJK@todaybig{\zhdigits{\the\year}年\zhnumber{\the\month}月\zhnumber{\the\day}日}
@@ -2334,20 +2344,42 @@
 % \end{macro}
 %
 % \begin{macro}{\ctitle}
+% \begin{macro}{\multictitlefst}
+% \begin{macro}{\multictitlesnd}
 % \begin{macro}{\etitle}
-% 论文中英文题目。
+% \begin{macro}{\multietitlefst}
+% \begin{macro}{\multietitlesnd}
+% \begin{macro}{\multietitletrd}
+% 论文中英文题目，为封二格式，定义了多行标题。
 %    \begin{macrocode}
 \thu@def@term{ctitle}
+\thu@def@term{multictitlefst}
+\thu@def@term{multictitlesnd}
 \thu@def@term{etitle}
+\thu@def@term{multietitlefst}
+\thu@def@term{multietitlesnd}
+\thu@def@term{multietitletrd}
+\thu@def@term{csubtitle}
+\thu@def@term{esubtitle}
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 % \end{macro}
 %
 % \begin{macro}{\cauthor}
 % \begin{macro}{\eauthor}
 % \begin{macro}{\csupervisor}
+% \begin{macro}{\csupervisoraddr}
 % \begin{macro}{\cassosupervisor}
 % \begin{macro}{\ccosupervisor}
+% \begin{macro}{\cchairman}
+% \begin{macro}{\cmemberxxx}
+% \begin{macro}{\cmember}
+% \begin{macro}{\emember}
 % \begin{macro}{\esupervisor}
 % \begin{macro}{\eassosupervisor}
 % \begin{macro}{\ecosupervisor}
@@ -2355,13 +2387,30 @@
 %    \begin{macrocode}
 \thu@def@term{cauthor}
 \thu@def@term{csupervisor}
+\thu@def@term{csupervisortitle}
+\thu@def@term{csupervisorunit}
+\thu@def@term{csupervisoraddr}
 \thu@def@term{cassosupervisor}
 \thu@def@term{ccosupervisor}
+\thu@def@term{cchairman}
+\thu@def@term{cmember}
 \thu@def@term{eauthor}
 \thu@def@term{esupervisor}
 \thu@def@term{eassosupervisor}
 \thu@def@term{ecosupervisor}
+\thu@def@term{cmemberfirst}
+\thu@def@term{cmembersecond}
+\thu@def@term{cmemberthird}
+\thu@def@term{cmemberfourth}
+\thu@def@term{cmemberfifth}
+\thu@def@term{cmembersixth}
+\thu@def@term{cmemberseventh}
 %    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 % \end{macro}
 % \end{macro}
 % \end{macro}
@@ -2429,20 +2478,62 @@
 % \end{macro}
 % \end{macro}
 %
+% \begin{macro}{\csubdate}
+% \begin{macro}{\esubdate}
+% 论文提交日期。
+%    \begin{macrocode}
+\thu@def@term{csubdate}
+\thu@def@term{esubdate}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\cdefdate}
+% \begin{macro}{\edefdate}
+% 论文答辩日期。
+%    \begin{macrocode}
+\thu@def@term{cdefdate}
+\thu@def@term{edefdate}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
+% \begin{macro}{\cawadate}
+% \begin{macro}{\eawadate}
+% 学位授予日期。
+%    \begin{macrocode}
+\thu@def@term{cawadate}
+\thu@def@term{eawadate}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+%
 % \begin{macro}{\id}
+% \begin{macro}{\sno}
 % \begin{macro}{\udc}
 % \begin{macro}{\catalognumber}
 % \begin{macro}{\cfirstdiscipline}
 % \begin{macro}{\cseconddiscipline}
 % \begin{macro}{\postdoctordate}
+% \begin{macro}{\thesislang}
+% \begin{macro}{\thesisabslang}
+% \begin{macro}{\thesispages}
+% \begin{macro}{\thesiswords}
+% \begin{macro}{\interests}
 % 博士后专用封面参数。
 %    \begin{macrocode}
 \thu@def@term{id}
+\thu@def@term{sno}
 \thu@def@term{udc}
 \thu@def@term{catalognumber}
 \thu@def@term{cfirstdiscipline}
 \thu@def@term{cseconddiscipline}
 \thu@def@term{postdoctordate}
+\thu@def@term{thesislang}
+\thu@def@term{thesisabslang}
+\thu@def@term{thesispages}
+\thu@def@term{thesiswords}
+\thu@def@term{interests}
 %    \end{macrocode}
 % \end{macro}
 % \end{macro}
@@ -2450,7 +2541,22 @@
 % \end{macro}
 % \end{macro}
 % \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
 %
+% \begin{environment}{preface}
+% 前言最好以环境的形式出现（否则命令的形式会导致开始结束的括号距离太远，我不喜
+% 欢），这就必须让环境能够自己保存内容留待以后使用。使用 \pkg{environ} 的
+% \cs{Collect@Body} 来实现。
+%    \begin{macrocode}
+\newcommand{\thu@@preface}[1]{\long\gdef\thu@preface{#1}}
+\newenvironment{preface}{\Collect@Body\thu@@preface}{}
+%    \end{macrocode}
+% \end{environment}
 % \begin{environment}{cabstract}
 % \begin{environment}{eabstract}
 % 摘要最好以环境的形式出现（否则命令的形式会导致开始结束的括号距离太远，我不喜
@@ -2528,46 +2634,81 @@
 \def\thu@ckeywords@separator{；}
 \def\thu@ekeywords@separator{;}
 \def\thu@catalog@number@title{分类号}
+\def\thu@catalog@number@sectitle{分类号（中图法）}
 \def\thu@id@title{编号}
+\def\thu@sno@title{学号}
+\def\thu@udc@title{UDC}
+\def\thu@udc@sectitle{U D C（DDC）}
 \def\thu@title@sep{：}
 \ifthu@postdoctor
   \def\thu@secretlevel{密级}
 \else
-  \def\thu@secretlevel{秘密}
+  \ifthu@doctor
+    \def\thu@secretlevel{密级}
+  \else
+    \def\thu@secretlevel{秘密}
+  \fi
 \fi
+\def\thu@secretcontentnone{无}
 \def\thu@secretyear{\the\year}
-\def\thu@schoolname{清华大学}
+\def\thu@schoolname{河海大学}
+\def\thu@cschooladdr{中国南京}
+\def\thu@eschooladdr{Nanjing \quad P.R.China }
+\def\thu@school@title{单位}
 \def\thu@postdoctor@report@title{博士后研究报告}
+\def\thu@doctor@title{博士学位论文}
 \def\thu@bachelor@subtitle{综合论文训练}
 \def\thu@bachelor@title@pre{题目}
 \def\thu@postdoctor@date@title{研究起止日期}
+\def\thu@ctitle@pre{论文中文题名}
+\def\thu@csubtitle@pre{论文中文副题名}
+\def\thu@etitle@pre{论文英文题名}
+\def\thu@esubtitle@pre{论文英文副题名}
+\def\thu@thesislang@title{论文语种}
+\def\thu@thesisabslang@title{论文摘要语种}
+\def\thu@thesispages@title{论文页数}
+\def\thu@thesiswords@title{论文字数}
+\def\thu@thesiskeywords@title{论文关键词}
 \ifthu@postdoctor
   \def\thu@author@title{博士后姓名}
 \else
-  \ifthu@bachelor
-    \def\thu@author@title{姓名}
+  \ifthu@doctor
+    \def\thu@author@title{论文作者姓名}
   \else
-    \def\thu@author@title{研究生}
+    \ifthu@bachelor
+      \def\thu@author@title{姓名}
+    \else
+      \def\thu@author@title{研究生}
+    \fi
   \fi
 \fi
+\def\thu@cdegree@title{申请学位级别}
+\def\thu@interests@title{研究方向}
+\def\thu@csubdate@title{论文提交日期}
+\def\thu@cdefdate@title{论文答辩日期}
+\def\thu@cawadate@title{学位授予单位和日期}
+\def\thu@cchairman@title{答辩委员会主席}
+\def\thu@cmember@title{论文评阅人}
+\def\thu@cmember@separator{、}
 \def\thu@postdoctor@first@discipline@title{流动站（一级学科）名称}
 \def\thu@postdoctor@second@discipline@title{专\hspace{1em}业（二级学科）名称}
 \def\thu@secret@content{%
   \unskip\ifthu@master$\bigstar$ \fi%
   \ifthu@doctor$\bigstar$ \fi%
   \thu@secretyear 年}
-\def\thu@apply{（申请清华大学\thu@cdegree 学位论文）}
+\def\thu@apply{（申请河海大学\thu@cdegree 学位论文）}
 \ifthu@bachelor
-  \def\thu@department@title{系别}
-  \def\thu@major@title{专业}
+  \def\thu@department@title{学院}
+  \def\thu@major@title{专业名称}
 \else
   \def\thu@department@title{培养单位}
-  \def\thu@major@title{学科}
+  \def\thu@major@title{专业名称}
 \fi
 \ifthu@postdoctor
-  \def\thu@supervisor@title{合作导师}
+  \def\thu@supervisor@title{合作导师姓名}
 \else
-  \def\thu@supervisor@title{指导教师}
+  \def\thu@supervisor@title{指导教师姓名}
+  \def\thu@supervisoraddr@title{导师单位}
 \fi
 \ifthu@bachelor
   \def\thu@assosuper@title{辅导教师}
@@ -2580,30 +2721,25 @@
 \edate{\ifcase \month \or January\or February\or March\or April\or May%
        \or June\or July \or August\or September\or October\or November
        \or December\fi\unskip,\ \ \the\year}
-\newcommand{\thu@authtitle}{关于学位论文使用授权的说明}
+\newcommand{\thu@orgintitle}{学位论文独创性声明}
+\newcommand{\thu@originality}{%
+本人所呈交的学位论文是我个人在导师指导下进行的研究工作及取得的研究成果。尽我所知，
+除了文中特别加以标注和致谢的地方外，论文中不包含其他人已经发表或撰写过的研究成果。
+与我一同工作的同事对本研究所做的任何贡献均已在论文中做了明确的说明并表示了谢意。如
+不属实，本人负全部责任。}
+\newcommand{\thu@authtitle}{学位论文使用授权说明}
 \newcommand{\thu@authorization}{%
-\ifthu@bachelor
-本人完全了解清华大学有关保留、使用学位论文的规定，即：学校有权保留学位
-论文的复印件，允许该论文被查阅和借阅；学校可以公布该论文的全部或部分内
-容，可以采用影印、缩印或其他复制手段保存该论文。
-\else
-本人完全了解清华大学有关保留、使用学位论文的规定，即：
-
-清华大学拥有在著作权法规定范围内学位论文的使用权，其中包括：（1）已获学位的研究生
-必须按学校规定提交学位论文，学校可以采用影印、缩印或其他复制手段保存研究生上交的
-学位论文；（2）为教学和科研目的，学校可以将公开的学位论文作为资料在图书馆、资料
-室等场所供校内师生阅读，或在校园网上供校内师生浏览部分内容\ifthu@master 。\else ；
-（3）根据《中华人民共和国学位条例暂行实施办法》，向国家图书馆报送可以公开的学位
-论文。\fi
-
-本人保证遵守上述规定。
-\fi}
+河海大学、中国科学技术信息研究所、国家图书馆、中国学术期刊（光盘版）电子杂志社有权
+保留本人所送交学位论文的复印件或电子文档，可以采用影印、缩印或其他复制手段保存论文
+。本人电子文档的内容和纸质论文的内容相一致。除在保密期内的保密论文外，允许论文被查
+阅和借阅。论文全部或部分内容的公布（包括刊登）授权河海大学研究生办理。}
 \newcommand{\thu@authorizationaddon}{%
   \ifthu@bachelor(涉密的学位论文在解密后应遵守此规定)\else （保密的论文在解密后应遵守此规定）\fi}
-\newcommand{\thu@authorsig}{\ifthu@bachelor 签\hskip1em名：\else 作者签名：\fi}
+\newcommand{\thu@authorsig}{\ifthu@bachelor 签\hskip1em名：\else 论文作者（签名）：\fi}
 \newcommand{\thu@teachersig}{导师签名：}
 \newcommand{\thu@frontdate}{%
-  日\ifthu@bachelor\hspace{1em}\else\hspace{2em}\fi 期：}
+  %日\ifthu@bachelor\hspace{1em}\else\hspace{2em}\fi 期：}
+  \hspace{2em}年\hspace{2em}月\hspace{2em}日}
 \newcommand{\thu@ckeywords@title}{关键词：}
 %</cfg>
 %    \end{macrocode}
@@ -2612,7 +2748,8 @@
 % \myentry{封面第一页}
 % \begin{macro}{\thu@first@titlepage}
 % 题名使用一号黑体字，一行写不下时可分两行写，并采用 1.25 倍行距。
-% 申请学位的学科门类: 小二号宋体字。
+% 作者姓名4号宋体字。
+% 申请学位的学科门类: 四号宋体字。
 % 中文封面页边距：
 %  上- 6.0 厘米，下- 5.5 厘米，左- 4.0 厘米，右- 4.0 厘米，装订线 0 厘米；
 % \changes{v2.5.1}{2006/05/21}{本科封面标题调整微小的空隙。}
@@ -2626,7 +2763,9 @@
 %
 %    \begin{macrocode}
 %<*cls>
-\newcommand\thu@underline[2][6em]{\hskip1pt\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3pt}
+\newlength{\thu@underline@width}
+% \newcommand\thu@underline[2][6em]{\hskip1pt\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3pt}
+\newcommand\thu@underline[2][\thu@underline@width]{\underline{\hb@xt@ #1{\hss#2\hss}}}
 \newlength{\thu@title@width}
 \ifxetex % todo: ugly codes
   \newcommand{\thu@put@title}[2][\thu@title@width]{%
@@ -2636,7 +2775,15 @@
   \begin{CJKfilltwosides}{#1}#2\end{CJKfilltwosides}}
 \fi
 \def\thu@first@titlepage{%
-  \ifthu@postdoctor\thu@first@titlepage@postdoctor\else\thu@first@titlepage@other\fi}
+  \ifthu@postdoctor
+    \thu@first@titlepage@postdoctor
+  \else{
+    \ifthu@doctor
+      \thu@first@titlepage@doctor
+    \else
+      \thu@first@titlepage@other
+    \fi}
+  \fi}
 \newcommand{\thu@first@titlepage@postdoctor}{
   \begin{center}
     \setlength{\thu@title@width}{3em}
@@ -2684,6 +2831,126 @@
     \vskip2cm
     {\sihao\thu@postdoctor@date@title\hskip1em\underline\thu@postdoctordate}
   \end{center}}
+  \newcommand{\thu@first@titlepage@doctor}{
+    \begin{center}
+     \setlength{\thu@title@width}{4em}
+     \setlength{\thu@underline@width}{8em}
+     \vspace*{-0.5cm}
+     \begingroup\sihao[1.5]%
+     \hspace*{\fill}\thu@put@title{\thu@sno@title}\thu@underline\thu@sno\par%
+     \thu@put@title{\thu@catalog@number@title}\thu@underline\thu@catalognumber\hfill%
+     \thu@put@title{\thu@secretlevel}%
+       \expandafter\thu@underline\ifthu@secret\thu@secret@content\else \thu@secretcontentnone \fi\par
+     \thu@put@title{U D C}\thu@underline\thu@udc\hspace*{\fill}\par\vskip2cm%
+     \endgroup
+     \begingroup\heiti
+       {\centering\includegraphics[width=7.0cm]{hhu-text-logo}}\par\vskip1.5cm
+       {\erhao\songti\ziju{1}\thu@doctor@title}\par\vskip1.5cm
+       {\yihao\heiti\thu@ctitle}\par
+       {\yihao\heiti\thu@csubtitle}\par
+       \vskip1.5cm
+       {\sihao[1.5]\songti\thu@cauthor}
+     \endgroup
+     \par\vskip1.5cm
+     \begingroup\sihao[1.5]\songti%
+       % 32em 一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十\par
+       \setlength{\thu@title@width}{6em}
+       \setlength{\thu@underline@width}{26em}
+       \thu@put@title{\thu@supervisor@title}\thu@underline{\hfill%
+         \thu@csupervisor\hskip4em%
+         \thu@csupervisortitle\hfill}\par%
+       \thu@put@title{\thu@supervisoraddr@title}
+         \thu@underline{\hfill\thu@csupervisoraddr\hskip4em\thu@csupervisorunit\hfill}\par%
+       \thu@put@title{\thu@cdegree@title}\thu@underline[10em]{\thu@cdegree}%
+         \thu@put@title{\thu@major@title}\thu@underline[10em]{\thu@cmajor}\par%
+       \setlength{\thu@underline@width}{9em}
+       \thu@put@title{\thu@csubdate@title}
+         \thu@title@sep
+         \thu@underline{\thu@csubdate}%
+       \thu@put@title{\thu@cdefdate@title}
+         \thu@title@sep
+         \thu@underline{\thu@cdefdate}\par%
+       \setlength{\thu@title@width}{9em}
+       \setlength{\thu@underline@width}{23em}
+       \thu@put@title{\thu@cawadate@title}%
+         \thu@underline{\hfill\thu@schoolname\hfill
+         \thu@cawadate\hfill}\par%
+       %一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二\par
+       \setlength{\thu@title@width}{7em}
+       \setlength{\thu@underline@width}{6em}
+       \thu@put@title{\thu@cchairman@title}%
+         \thu@title@sep%
+         \thu@underline{\hfill\thu@cchairman\hfill}
+         \setlength{\thu@title@width}{5em}
+         \setlength{\thu@underline@width}{5em}
+         \thu@put@title{\thu@cmember@title}
+         \thu@title@sep
+         \thu@underline{\thu@cmemberfirst}
+         \thu@cmember@separator
+         \thu@underline{\thu@cmembersecond}\par
+       % 一二三四五六七八九十一二三四五六七八九十一二三四五六七八九十一二\par
+       \thu@put@title[32em]{\thu@underline{\thu@cmemberthird}
+         \thu@cmember@separator
+         \thu@underline{\thu@cmemberfourth}
+         \thu@cmember@separator
+         \thu@underline{\thu@cmemberfifth}
+         \thu@cmember@separator
+         \thu@underline{\thu@cmembersixth}
+         \thu@cmember@separator
+         \thu@underline{\thu@cmemberseventh}\hfill}
+         \par\vskip1.0cm%
+         % 仿照关键词进行修正。
+     \endgroup
+     {\ziju{2}\CJK@todaysmall@short\hskip4em\thu@cschooladdr}
+     % {\xiaosan[1.5]\ziju{1}\hhu@schoolname\par\vskip0.5em\CJK@todaysmall@short}
+   \end{center}
+   \cleardoublepage
+   \shuji
+   \cleardoublepage
+   \begin{center}
+     \vspace*{0cm}
+     \begingroup\songti\sihao[3.0]%
+         \setlength{\thu@underline@width}{6em}
+         \thu@put@title[8em]{\thu@catalog@number@sectitle}\thu@underline\thu@catalognumber
+         \thu@put@title[6em]{\thu@udc@sectitle}\thu@underline[4em]\thu@udc
+         \thu@put@title[2em]{\thu@secretlevel}\expandafter\thu@underline\ifthu@secret\thu@secret@content\else \thu@secretcontentnone \fi\par
+         \thu@put@title[6em]{\thu@author@title}\thu@underline[8em]\thu@cauthor
+         \thu@put@title[2em]{\thu@sno@title}\thu@underline[6em]\thu@sno
+         \thu@put@title[2em]{\thu@school@title}\thu@underline[8em]\thu@schoolname\par
+         \thu@put@title[6em]{\thu@ctitle@pre}\thu@underline[26em]{\thu@multictitlefst}\par
+         \ifx\thu@multictitlesnd\@empty
+         \else
+          \thu@put@title[6em]{\hspace*{\fill}}\thu@underline[26em]{\thu@multictitlesnd}\par
+         \fi
+         \thu@put@title[7em]{\thu@csubtitle@pre}\thu@underline[25em]\thu@csubtitle\par
+         \thu@put@title[6em]{\thu@etitle@pre}\thu@underline[26em]{\thu@multietitlefst}\par
+         \ifx\thu@multietitlesnd\@empty
+         \else
+          \thu@put@title[6em]{\hspace*{\fill}}\thu@underline[26em]{\thu@multietitlesnd}\par
+         \fi
+         \ifx\thu@multietitletrd\@empty
+         \else
+          \thu@put@title[6em]{\hspace*{\fill}}\thu@underline[26em]{\thu@multietitletrd}\par
+         \fi
+         \thu@put@title[7em]{\thu@esubtitle@pre}\thu@underline[25em]\thu@esubtitle\par
+         \thu@put@title[4em]{\thu@thesislang@title}\thu@underline[4em]\thu@thesislang
+         \thu@put@title[6em]{\thu@thesisabslang@title}\thu@underline[4em]\thu@thesisabslang
+         \thu@put@title[4em]{\thu@thesispages@title}\thu@underline[2em]\thu@thesispages
+         \thu@put@title[4em]{\thu@thesiswords@title}\thu@underline[4em]\thu@thesiswords\par
+         \thu@put@title[5em]{\thu@thesiskeywords@title}\thu@underline[27em]{\thu@ckeywords}\par
+         \thu@put@title[6em]{\thu@cdegree@title}\thu@underline[10em]{\thu@cdegree}%
+         \thu@put@title[6em]{\thu@major@title}\thu@underline[10em]{\thu@cmajor}\par%
+         \thu@put@title[4em]{\thu@interests@title}\thu@underline[28em]\thu@interests\par
+         \thu@put@title[6em]{\thu@supervisor@title}\thu@underline[8em]{\hfill%
+           \thu@csupervisor\hfill%
+           \thu@csupervisortitle\hfill
+           }
+         \thu@put@title[4em]{\thu@supervisoraddr@title}
+           \thu@underline[14em]{\hfill\thu@csupervisorunit\hfill}\par%
+         \thu@put@title[6em]{\thu@cdefdate@title}\thu@underline[26em]{\thu@cdefdate}\par%
+         \par\vskip1.0cm%
+     \endgroup
+\end{center}}
 \newcommand{\thu@first@titlepage@other}{
   \begin{center}
     \vspace*{-1.6cm}
@@ -2841,38 +3108,39 @@
     \parbox[t][5.2cm][t]{\paperwidth-7.2cm}{
       \renewcommand{\baselinestretch}{1.5}
       \begin{center}
-        \erhao[1.1]\bfseries\sffamily\thu@etitle%
+        \erhao[1.1]\bfseries\thu@etitle%
       \end{center}}
     \parbox[t][][t]{\paperwidth-7.2cm}{
       \renewcommand{\baselinestretch}{1.3}
       \begin{center}
-        \sanhao%
+        \sihao[2.0]%
         \ifthu@master Thesis \else Dissertation \fi
         Submitted to\\
-        {\bfseries Tsinghua University}\\
-        in partial fulfillment of the requirement\\
-        for the \ifthu@professional professional \fi
-        degree of\\
-        {\bfseries\sffamily\thu@edegree}%
+        {\bfseries Hohai University}\\
+        In Fulfillment of the Requirement\\
+        For the Degree of\\
+        {\bfseries\thu@edegree}%
         \ifthu@professional\relax\else
           \\in\\[3bp]
-          {\bfseries\sffamily\thu@emajor}%
+          {\bfseries\thu@emajor}%
         \fi
       \end{center}}
+    \vskip2.0cm
     \parbox[t][][b]{\paperwidth-7.2cm}{
       \renewcommand{\baselinestretch}{1.3}
       \begin{center}
-        \sanhao\sffamily by\\[3bp]
+        \sihao by\\[3bp]
+        \vskip2.0cm
         \bfseries\thu@eauthor%
         \ifthu@professional
-          \ifx\thu@emajor\empty\relax\else
-            \\(~\thu@emajor~)%
+          \ifx\thu@edepartment\empty\relax\else
+            \\(~\thu@edepartment~)%
         \fi\fi
       \end{center}}
     \par\vspace{0.9cm}
-    \parbox[t][2.1cm][t]{\paperwidth-7.2cm}{
+    \parbox[t][1.5cm][t]{\paperwidth-7.2cm}{
       \renewcommand{\baselinestretch}{1.2}
-      \xiaosan\centering
+      \sihao\centering
       \begin{tabular}{rl}
         \ifthu@master Thesis \else Dissertation \fi
         Supervisor : & \thu@esupervisor\\
@@ -2881,9 +3149,9 @@
         \ifx\thu@ecosupervisor\@empty
           \else Cooperate Supervisor : & \thu@ecosupervisor\\\fi
       \end{tabular}}
-    \parbox[t][2cm][b]{\paperwidth-7.2cm}{
+    \parbox[t][1.5cm][b]{\paperwidth-7.2cm}{
     \begin{center}
-      \sanhao\bfseries\sffamily\thu@edate
+      \sanhao\thu@edate\hskip4em\thu@eschooladdr
     \end{center}}
   \end{center}}
 %    \end{macrocode}
@@ -2897,24 +3165,43 @@
 % 支持扫描文件替换。
 %    \begin{macrocode}
 \newcommand{\thu@authorization@mk}{%
-  \ifthu@bachelor\vspace*{0.2cm}\else\vspace*{0.42cm}\fi % shit code!
-  \begin{center}\erhao\heiti\thu@authtitle\end{center}
-  \ifthu@bachelor\vskip5pt\else\vskip40pt\sihao[2.03]\fi\par
-  \thu@authorization\par
-  \textbf{\thu@authorizationaddon}\par
-  \ifthu@bachelor\vskip0.7cm\else\vskip1.0cm\fi
-  \ifthu@bachelor
-    \indent\mbox{\thu@authorsig\thu@underline\relax%
-    \thu@teachersig\thu@underline\relax\thu@frontdate\thu@underline\relax}
-  \else
-    \begingroup
-      \parindent0pt\xiaosi
-      \hspace*{1.5cm}\thu@authorsig\thu@underline[7em]\relax\hfill%
-                     \thu@teachersig\thu@underline[7em]\relax\hspace*{1cm}\\[3pt]
-      \hspace*{1.5cm}\thu@frontdate\thu@underline[7em]\relax\hfill%
-                     \thu@frontdate\thu@underline[7em]\relax\hspace*{1cm}
-    \endgroup
-  \fi}
+%  \ifthu@bachelor\vspace*{0.2cm}\else\vspace*{0.42cm}\fi % shit code!
+%  \begin{center}\erhao\heiti\thu@authtitle\end{center}
+%  \ifthu@bachelor\vskip5pt\else\vskip40pt\sihao[2.03]\fi\par
+%  \thu@authorization\par
+%  \textbf{\thu@authorizationaddon}\par
+%  \ifthu@bachelor\vskip0.7cm\else\vskip1.0cm\fi
+%  \ifthu@bachelor
+%    \indent\mbox{\thu@authorsig\thu@underline\relax%
+%    \thu@teachersig\thu@underline\relax\thu@frontdate\thu@underline\relax}
+%  \else
+%    \begingroup
+%      \parindent0pt\xiaosi
+%      \hspace*{1.5cm}\thu@authorsig\thu@underline[7em]\relax\hfill%
+%                     \thu@teachersig\thu@underline[7em]\relax\hspace*{1cm}\\[3pt]
+%      \hspace*{1.5cm}\thu@frontdate\thu@underline[7em]\relax\hfill%
+%                     \thu@frontdate\thu@underline[7em]\relax\hspace*{1cm}
+%    \endgroup
+%   \fi
+  \begingroup\sihao[2.0]
+    \thu@put@title[10em]{\thu@orgintitle\thu@title@sep}\hspace*{\fill}\par
+    \vskip0.7cm
+    \thu@originality\par
+    \vskip2.0cm
+    \indent\mbox{\thu@authorsig\thu@underline[6em]\relax\hspace*{4em}%
+    \thu@frontdate\relax}
+  \endgroup
+  \vskip2.0cm
+  \begingroup\sihao[2.0]
+    \noindent
+    \thu@put@title[10em]{\thu@authtitle}\hspace*{\fill}\par
+    \vskip0.7cm
+    \thu@authorization\par
+    \vskip2.0cm
+    \indent\mbox{\thu@authorsig\thu@underline[6em]\relax\hspace*{4em}%
+    \thu@frontdate\relax}
+  \endgroup
+  }
 %    \end{macrocode}
 % \end{macro}
 %
@@ -2984,15 +3271,40 @@
 % \changes{v2.5}{2006/05/16}{综合论文训练在授权说明之后。}
 % \changes{v3.0}{2007/05/12}{本科综合论文训练在电子版中取消。}
 %
-% 中英文摘要
+% 前言、中英文摘要
 %    \begin{macrocode}
   \normalsize
+  \thu@makepreface
   \thu@makeabstract
   \let\@tabular\thu@tabular}
 %</cls>
 %    \end{macrocode}
 % \end{macro}
 %
+% \subsubsection{前言}
+% \label{sec:prefaceformat}
+%
+% \begin{macro}{\thu@makepreface}
+% 前言部分，标题为“\textbf{前言}”，用黑体三号字。
+%    \begin{macrocode}
+%<*cls>
+\newcommand{\thu@makepreface}{%
+    \ifthu@bachelor\clearpage\else\cleardoublepage\fi
+    \thu@chapter*[]{\prefacename} % no tocline
+     \ifthu@bachelor
+        \pagestyle{thu@plain}
+      \else
+        \pagestyle{thu@headings}
+      \fi
+      \pagenumbering{Roman}
+%    \end{macrocode}
+% \end{macro}
+% 前言内容用小四号字书写，两端对齐，汉字用宋体，外文字用 Times New Roman 体，
+% 标点符号一律用中文输入状态下的标点符号。
+%    \begin{macrocode}
+  \thu@preface}
+%</cls>
+%    \end{macrocode}
 % \subsubsection{摘要}
 % \label{sec:abstractformat}
 %
@@ -3027,7 +3339,7 @@
   \else
     \pagestyle{thu@headings}
   \fi
-  \pagenumbering{Roman}
+  %\pagenumbering{Roman}
 %    \end{macrocode}
 %
 % 摘要内容用小四号字书写，两端对齐，汉字用宋体，外文字用 Times New Roman 体，
@@ -3497,11 +3809,11 @@
 % \changes{v5.0.0}{2015/12/21}{扩展 \cs{shuji}\oarg{标题}\oarg{作者}。}
 %    \begin{macrocode}
 %<*cls>
-\NewDocumentCommand{\shuji}{O{\thu@ctitle} O{\thu@cauthor}}{%
+\NewDocumentCommand{\shuji}{O{\thu@ctitle} O{\thu@cauthor} O{\thu@schoolname}}{%
   \newpage\thispagestyle{empty}%
   \fangsong\ifxetex\addCJKfontfeatures*{RawFeature={vertical:}}\fi
-  \xiaosan\ziju{0.4}%
-  \noindent\hfill\rotatebox[origin=lt]{-90}{\makebox[\textheight]{#1\hfill#2}}}
+  \sihao %\xiaosan\ziju{0.4}%
+  \noindent\hfill\rotatebox[origin=lt]{-90}{\makebox[\textheight]{#1\hfill#2\hfill#3}}}
 %</cls>
 %    \end{macrocode}
 % \end{macro}
@@ -3529,8 +3841,8 @@
 \RequirePackage{newpxtext}
 \RequirePackage{newpxmath}
 \RequirePackage[
-  top=2.5cm, bottom=2.5cm,
-  left=4cm, right=2cm,
+  top=2.5cm, bottom=2cm,
+  left=2.5cm, right=2cm,
   headsep=3mm]{geometry}
 \RequirePackage{array,longtable,booktabs}
 \RequirePackage{listings}
@@ -3631,6 +3943,7 @@
   \color{magenta}{\bfseries #1}\emph{#2}}}
 
 \def\thuthesis{\textsc{Thu}\-\textsc{Thesis}}
+\def\hhuthesis{\textsc{Hhu}\-\textsc{Thesis}}
 %</dtx-style>
 %    \end{macrocode}
 % \fi
