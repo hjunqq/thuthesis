@@ -2592,6 +2592,8 @@
 % \begin{macro}{\thu@parse@keywords}
 %   不同论文格式关键词之间的分割不太相同，我们用 \cs{ckeywords} 和
 %    \cs{ekeywords} 来收集关键词列表，然后用本命令来生成符合要求的格式。
+%    因为封二要求关键词分割用顿号（、），所以将其命名为subjectwords，需要
+%    在封二使用csubjectwords
 %    \begin{macrocode}
 \def\thu@parse@keywords#1{
   \define@key{thu}{#1}{\csname #1\endcsname{##1}}
