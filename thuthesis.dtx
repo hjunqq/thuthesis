@@ -1192,6 +1192,10 @@
 \DeclareBoolOption{secret}
 %    \end{macrocode}
 %
+% 论文是否右开。
+%    \begin{macrocode}
+\DeclareBoolOption{openright}
+%    \end{macrocode}
 % 章目录中的英文是否用 Arial 字体（默认关闭），可以分别控制内容和页码部分。
 %    \begin{macrocode}
 \DeclareBoolOption{tocarialchapter}
@@ -1428,10 +1432,11 @@
     footskip=12mm}
 \else
   \geometry{
-    left=25mm,
+    left=28mm,
+    right=22mm,
     headheight=5mm,
     headsep=5mm,
-    textheight=242mm,
+    textheight=237mm,
     bottom=29mm,
     footskip=6mm}
 \fi
@@ -1476,17 +1481,17 @@
 % \changes{v4.4}{2008/05/30}{本科取消了所有页眉。}
 %    \begin{macrocode}
 \renewcommand\frontmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifthu@openright\cleardoublepage\else\clearpage\fi
   \@mainmatterfalse
   \pagenumbering{Roman}
   \pagestyle{thu@empty}}
 \renewcommand\mainmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifthu@openright\cleardoublepage\else\clearpage\fi
   \@mainmattertrue
   \pagenumbering{arabic}
   \ifthu@bachelor\pagestyle{thu@plain}\else\pagestyle{thu@headings}\fi}
 \renewcommand\backmatter{%
-  \if@openright\cleardoublepage\else\clearpage\fi
+  \ifthu@openright\cleardoublepage\else\clearpage\fi
   \@mainmattertrue}
 %</cls>
 %    \end{macrocode}
@@ -1733,7 +1738,12 @@
   \renewcommand{\footrulewidth}{0pt}}
 \fancypagestyle{thu@headings}{%
   \fancyhead{}
-  \fancyhead[C]{\wuhao\normalfont\leftmark}
+  \ifthu@openright
+    \fancyhead[CE]{\wuhao\normalfont\thu@schoolname\thu@doctor@title}
+    \fancyhead[CO]{\wuhao\normalfont\leftmark}
+  \else
+    \fancyhead[C]{\wuhao\normalfont\leftmark}
+  \fi
   \fancyfoot{}
   \fancyfoot[C]{\wuhao\thepage}
   \renewcommand{\headrulewidth}{0.4pt}
@@ -2114,6 +2124,12 @@
 \AtBeginDocument{%
   \pagestyle{thu@empty}
   \renewcommand{\chaptermark}[1]{\@mkboth{\CTEXthechapter\hskip\ccwd#1}{}}}
+  \renewcommand\chapter{
+                    \ifthu@openright\cleardoublepage\else\clearpage\fi\phantomsection%
+ 					          \thispagestyle{\ifthu@bachelor thu@plain\else thu@headings\fi}%
+                    \global\@topnum\z@%
+                    \@afterindenttrue%
+                    \secdef\@chapter\@schapter}
 %    \end{macrocode}
 %
 % 各级标题格式设置。
@@ -2209,7 +2225,7 @@
   \IfBooleanF{#1}{%
     \ClassError{thuthesis}{You have to use the star form: \string\thu@chapter*}{}
   }%
-  \if@openright\cleardoublepage\else\clearpage\fi\phantomsection%
+  \ifthu@openright\cleardoublepage\else\clearpage\fi\phantomsection%
   \IfValueTF{#2}{%
     \ifthenelse{\equal{#2}{}}{%
       \addtocounter{thu@bookmark}\@ne
@@ -2588,6 +2604,17 @@
       \fi
       \expandafter\expandafter\expandafter\g@addto@macro%
         \expandafter\csname thu@#1\expandafter\endcsname\expandafter{\reserved@a}}}}
+\def\thu@parse@subjectwords#1{
+  \define@key{thu}{#1}{\csname #1\endcsname{##1}}
+  \expandafter\gdef\csname thu@#1\endcsname{}
+  \expandafter\gdef\csname #1\endcsname##1{
+    \@for\reserved@a:=##1\do{
+      \expandafter\ifx\csname thu@#1\endcsname\@empty\else
+        \expandafter\g@addto@macro\csname thu@#1\endcsname{%
+          \ignorespaces\csname thu@#1@separator\endcsname}
+      \fi
+      \expandafter\expandafter\expandafter\g@addto@macro%
+        \expandafter\csname thu@#1\expandafter\endcsname\expandafter{\reserved@a}}}}
 %    \end{macrocode}
 % \end{macro}
 % \begin{macro}{\ckeywords}
@@ -2597,6 +2624,7 @@
 % \changes{v3.1}{2007/06/16}{增强的关键词命令。}
 %    \begin{macrocode}
 \thu@parse@keywords{ckeywords}
+\thu@parse@subjectwords{csubjectwords}
 \thu@parse@keywords{ekeywords}
 %    \end{macrocode}
 % \end{macro}
@@ -2632,6 +2660,7 @@
 %    \begin{macrocode}
 %<*cfg>
 \def\thu@ckeywords@separator{；}
+\def\thu@csubjectwords@separator{、}
 \def\thu@ekeywords@separator{;}
 \def\thu@catalog@number@title{分类号}
 \def\thu@catalog@number@sectitle{分类号（中图法）}
@@ -2937,7 +2966,7 @@
          \thu@put@title[6em]{\thu@thesisabslang@title}\thu@underline[4em]\thu@thesisabslang
          \thu@put@title[4em]{\thu@thesispages@title}\thu@underline[2em]\thu@thesispages
          \thu@put@title[4em]{\thu@thesiswords@title}\thu@underline[4em]\thu@thesiswords\par
-         \thu@put@title[5em]{\thu@thesiskeywords@title}\thu@underline[27em]{\thu@ckeywords}\par
+         \thu@put@title[5em]{\thu@thesiskeywords@title}\thu@underline[27em]{\thu@csubjectwords}\par
          \thu@put@title[6em]{\thu@cdegree@title}\thu@underline[10em]{\thu@cdegree}%
          \thu@put@title[6em]{\thu@major@title}\thu@underline[10em]{\thu@cmajor}\par%
          \thu@put@title[4em]{\thu@interests@title}\thu@underline[28em]\thu@interests\par
@@ -3354,7 +3383,8 @@
 % 悬挂缩进，英文摘要同。}
 % \changes{v4.4.2}{2008/06/05}{本科生格式中文关键词采用首行缩进且无悬挂缩进。}
 %    \begin{macrocode}
-  \ifthu@doctor\vfill\else\vskip12bp\fi
+  %\ifthu@doctor\vfill\else\vskip12bp\fi
+  \vskip12bp
   \thu@put@keywords{\textbf\thu@ckeywords@title}{\thu@ckeywords}
 %    \end{macrocode}
 %
@@ -3381,7 +3411,8 @@
 % indent and no hang-indent.}
 % \changes{v4.7}{2012/06/02}{Bachelor sample uses Keywords w/o space \texttt{-\_-}}
 %    \begin{macrocode}
-  \ifthu@doctor\vfill\else\vskip12bp\fi
+  %\ifthu@doctor\vfill\else\vskip12bp\fi
+  \vskip12bp
   \thu@put@keywords{%
     \textbf{\ifthu@bachelor Keywords:\else Key Words:\fi\enskip}}{\thu@ekeywords}}
 %</cls>
@@ -3841,8 +3872,8 @@
 \RequirePackage{newpxtext}
 \RequirePackage{newpxmath}
 \RequirePackage[
-  top=2.5cm, bottom=2cm,
-  left=2.5cm, right=2cm,
+  top=2.5cm, bottom=2.5cm,
+  left=4cm, right=2cm,
   headsep=3mm]{geometry}
 \RequirePackage{array,longtable,booktabs}
 \RequirePackage{listings}
