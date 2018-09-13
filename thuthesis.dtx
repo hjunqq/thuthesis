@@ -1281,7 +1281,7 @@
 %
 % 图形支持宏包。
 %    \begin{macrocode}
-\RequirePackage{graphicx}
+\RequirePackage[dvipdfmx]{graphicx}
 %    \end{macrocode}
 %
 % 并排图形。\pkg{subfigure}、\pkg{subfig} 已经不再推荐，用新的 \pkg{subcaption}。
@@ -3499,16 +3499,18 @@
 %    \begin{macrocode}
   {
     \ifthu@postdoctor\relax\else%
-      \IfNoValueTF{#1}{%
-        \thu@chapter*{\thu@declarename}
-        \par{\xiaosi\parindent2em\thu@declaretext}\vskip2cm
-        {\xiaosi\hfill\thu@signature\thu@underline[2.5cm]\relax%
-         \thu@backdate\thu@underline[2.5cm]\relax}%
-      }{%
-        \includepdf[pagecommand={\thispagestyle{thu@empty}%
-          \phantomsection\addcontentsline{toc}{chapter}{\thu@declarename}%
-        }]{#1}%
-      }%
+      \ifthu@doctor\relax\else%
+        \IfNoValueTF{#1}{%
+          \thu@chapter*{\thu@declarename}
+          \par{\xiaosi\parindent2em\thu@declaretext}\vskip2cm
+          {\xiaosi\hfill\thu@signature\thu@underline[2.5cm]\relax%
+          \thu@backdate\thu@underline[2.5cm]\relax}%
+        }{%
+          \includepdf[pagecommand={\thispagestyle{thu@empty}%
+            \phantomsection\addcontentsline{toc}{chapter}{\thu@declarename}%
+          }]{#1}%
+        }%
+      \fi
     \fi
   }
 %    \end{macrocode}
