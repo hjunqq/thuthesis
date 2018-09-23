@@ -22,3 +22,7 @@ abc
 ```
 
 截图：
+<<<<<<< HEAD
+=======
+
+>>>>>>> add issue template

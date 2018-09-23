@@ -23,8 +23,11 @@ install:
         echo "tlpdbopt_install_srcfiles 0" >> $INSTALL/tl.profile;
         $INSTALL/install-tl -profile $INSTALL/tl.profile;
     fi
+<<<<<<< HEAD
 
   - tlmgr update --self --all −−no−auto−install;
+=======
+>>>>>>> speed up ci with caching
 
   - tlmgr install latexmk
     fontname fontspec l3kernel l3packages xetex
@@ -34,6 +37,8 @@ install:
     fp multirow notoccite ntheorem pdfpages pict2e unicode-math xcolor zapfding
     fontaxes kastrup listings lm metalogo newpx newtx palatino pxfonts thumbpdf
     txfonts xkeyval
+
+  - tlmgr update --self --all −−no−auto−install;
 
 before_script:
   - sed -i 's/\[RawFeature={vertical:}\]{FangSong}/\[Extension=.otf,RawFeature={vertical:}\]{FandolFang-Regular}/' shuji.tex
